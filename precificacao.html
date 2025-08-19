@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Precificação para Confeitarias</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 2rem;
+      }
+      label {
+        display: block;
+        margin-top: 0.5rem;
+      }
+      input {
+        margin-top: 0.25rem;
+      }
+      #result {
+        margin-top: 1rem;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Calculadora de Preço</h1>
+    <form id="pricingForm">
+      <label>
+        Custo dos ingredientes (R$):
+        <input type="number" id="ingredientes" step="0.01" min="0" required />
+      </label>
+      <label>
+        Custo da embalagem (R$):
+        <input type="number" id="embalagem" step="0.01" min="0" value="0" />
+      </label>
+      <label>
+        Outros custos (R$):
+        <input type="number" id="outros" step="0.01" min="0" value="0" />
+      </label>
+      <label>
+        Margem de lucro (%):
+        <input type="number" id="lucro" step="0.01" min="0" value="50" />
+      </label>
+      <label>
+        Número de porções:
+        <input type="number" id="porcoes" min="1" value="1" />
+      </label>
+      <button type="submit">Calcular</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+      const form = document.getElementById("pricingForm");
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const ingredientes =
+          parseFloat(document.getElementById("ingredientes").value) || 0;
+        const embalagem =
+          parseFloat(document.getElementById("embalagem").value) || 0;
+        const outros = parseFloat(document.getElementById("outros").value) || 0;
+        const lucro = parseFloat(document.getElementById("lucro").value) || 0;
+        const porcoes =
+          parseInt(document.getElementById("porcoes").value, 10) || 1;
+
+        const custoTotal = ingredientes + embalagem + outros;
+        const precoTotal = custoTotal * (1 + lucro / 100);
+        const precoPorPorcao = precoTotal / porcoes;
+
+        document.getElementById("result").textContent =
+          "Preço total: R$ " +
+          precoTotal.toFixed(2) +
+          " | Preço por porção: R$ " +
+          precoPorPorcao.toFixed(2);
+      });
+    </script>
+  </body>
+</html>
